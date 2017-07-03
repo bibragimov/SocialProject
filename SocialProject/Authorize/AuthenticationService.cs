@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using SocialProject.BLL.Core.Services;
 using SocialProject.DAL.Common.Entities;
 
-namespace SocialProject
+namespace SocialProject.Authorize
 {
-    public class AuthenticationService
+    /// <summary>
+    ///     Служба проверки подлинности
+    /// </summary>
+    public class AuthenticationService : IAuthenticationService
     {
         private readonly IAuthenticationManager _authenticationManager;
 

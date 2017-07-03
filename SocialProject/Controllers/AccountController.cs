@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Net;
 using System.Web.Http;
+using SocialProject.Authorize;
 using SocialProject.BLL.Common.CQRS.Commands;
 using SocialProject.BLL.Common.CQRS.Queries.Users;
 using SocialProject.BLL.Common.Models;
@@ -9,26 +9,26 @@ using SocialProject.DAL.Common.Entities;
 
 namespace SocialProject.Controllers
 {
-    [SocialApiAuthorize(typeof(User))]
+    [SocialApiAuthorize(typeof (User))]
     public class AccountController : ApiController
     {
-        private readonly AuthenticationService _authenticationService;
-        private readonly IQueryHandler<CheckAuthQuery, User> _checkAuthQueryHandler;
+        private readonly ICommandHandler<LoginUserCommand> _loginCommandHandler;
         private readonly ICommandHandler<CreateUserCommand> _userCommandHandler;
         private readonly IQueryHandler<GetUserInfoQuery, UserInfoDto> _userQueryHandler;
         private readonly IQueryHandler<GetAllUsersQuery, List<UserInfoDto>> _usersQueryHandler;
+        private readonly ICommandHandler<LogoutUserCommand> _logoutCommandHandler;
 
         public AccountController(IQueryHandler<GetUserInfoQuery, UserInfoDto> userQueryHandler,
             IQueryHandler<GetAllUsersQuery, List<UserInfoDto>> usersQueryHandler,
             ICommandHandler<CreateUserCommand> userCommandHandler,
-            AuthenticationService authenticationService,
-            IQueryHandler<CheckAuthQuery, User> checkAuthQueryHandler)
+            ICommandHandler<LogoutUserCommand> logoutCommandHandler, 
+            ICommandHandler<LoginUserCommand> loginCommandHandler)
         {
             _userQueryHandler = userQueryHandler;
             _usersQueryHandler = usersQueryHandler;
             _userCommandHandler = userCommandHandler;
-            _authenticationService = authenticationService;
-            _checkAuthQueryHandler = checkAuthQueryHandler;
+            _logoutCommandHandler = logoutCommandHandler;
+            _loginCommandHandler = loginCommandHandler;
         }
 
         /// <summary>
@@ -36,9 +36,9 @@ namespace SocialProject.Controllers
         /// </summary>
         /// <remarks>Регистрация нового пользователя</remarks>
         /// <param name="regUser">Model</param>
-        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
+        [Route("account/registration")]
         public IHttpActionResult Registration(RegisterUserDto regUser)
         {
             _userCommandHandler.Handle(new CreateUserCommand(regUser));
@@ -48,20 +48,15 @@ namespace SocialProject.Controllers
         /// <summary>
         ///     Авторизация пользователя
         /// </summary>
-        /// <param name="auth">Model</param>
+        /// <param name="auth">Модель авторизации пользователя</param>
         [AllowAnonymous]
         [HttpPost]
-        [Route("login")]
+        [Route("account/login")]
         public IHttpActionResult Autorization(AuthUserDto auth)
         {
-            var result = _checkAuthQueryHandler.Handle(new CheckAuthQuery(auth));
+            _loginCommandHandler.Handle(new LoginUserCommand(auth));
 
-            if (result != null)
-            {
-                _authenticationService.Login(result, auth.IsRememberMe);
-                return Ok();
-            }
-            return Content(HttpStatusCode.BadRequest, "Unauthorized");
+            return Ok();
         }
 
 
@@ -69,9 +64,10 @@ namespace SocialProject.Controllers
         ///     Получение пользователей
         /// </summary>
         /// <param name="count">Кол-во пользователей</param>
-        /// <returns></returns>
+        /// <returns>Список пользователей</returns>
         [AllowAnonymous]
         [HttpGet]
+        [Route("account/getUsers")]
         public IHttpActionResult GetAllUsers(int count = 10)
         {
             var users = _usersQueryHandler.Handle(new GetAllUsersQuery(count));
@@ -83,7 +79,9 @@ namespace SocialProject.Controllers
         ///     Получение инф-и о пользователе
         /// </summary>
         /// <param name="id">Ид пользователя</param>
+        /// <returns>Пользователь</returns>
         [HttpGet]
+        [Route("account/getUserInfo")]
         public IHttpActionResult GetUserInfo(long id)
         {
             var user = _userQueryHandler.Handle(new GetUserInfoQuery(id));
@@ -95,9 +93,11 @@ namespace SocialProject.Controllers
         ///     Выход из системы
         /// </summary>
         [HttpGet]
+        [Route("account/logout")]
         public IHttpActionResult Logout()
         {
-            _authenticationService.Logout();
+            _logoutCommandHandler.Handle(new LogoutUserCommand());
+
             return Ok();
         }
     }

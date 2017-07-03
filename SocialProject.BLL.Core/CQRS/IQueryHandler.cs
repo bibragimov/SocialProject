@@ -5,4 +5,10 @@
     {
         TResult Handle(TQuery query);
     }
+
+    public interface IQueryHandler<in TQuery>
+        where TQuery : IQuery
+    {
+        void Handle(TQuery query);
+    }
 }

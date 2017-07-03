@@ -4,10 +4,16 @@ using System.Security.Principal;
 using Microsoft.AspNet.Identity;
 using SocialProject.DAL.Common.Entities;
 
-namespace SocialProject
+namespace SocialProject.Authorize
 {
+    /// <summary>
+    ///     Расширения для идентификаторов
+    /// </summary>
     public static class IdentityExtensions
     {
+        /// <summary>
+        ///     Конструктор
+        /// </summary>
         static IdentityExtensions()
         {
             RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
@@ -19,15 +25,15 @@ namespace SocialProject
             UserFullNameClaimType = "Market.FullName";
         }
 
-        public static string RoleClaimType { get; private set; }
+        public static string RoleClaimType { get; }
 
-        public static string UserNameClaimType { get; private set; }
+        public static string UserNameClaimType { get; }
 
-        public static string UserIdClaimType { get; private set; }
+        public static string UserIdClaimType { get; }
 
-        public static string SecurityStampClaimType { get; private set; }
+        public static string SecurityStampClaimType { get; }
 
-        public static string MarketIdentityClaimType { get; private set; }
+        public static string MarketIdentityClaimType { get; }
 
         public static string MarketIdentityClaimTypeBase { get; private set; }
 
@@ -65,7 +71,7 @@ namespace SocialProject
 
             foreach (var identityType in identityTypes)
             {
-                if (!typeof(User).IsAssignableFrom(identityType))
+                if (!typeof (User).IsAssignableFrom(identityType))
                     throw new Exception(string.Format("Wrong IdentityType {0}", identityType));
 
                 if (claimsIdentity.HasClaim(MarketIdentityClaimType, identityType.Name))
@@ -80,11 +86,11 @@ namespace SocialProject
         /// </summary>
         public static bool IsUser(this IPrincipal principal)
         {
-            return IsAuthorized(principal, false, typeof(User));
+            return IsAuthorized(principal, false, typeof (User));
         }
 
         /// <summary>
-        ///     Получение штампа безопасности
+        ///     Получение штампа безопасности <see cref="ClaimsIdentity" />
         /// </summary>
         /// <param name="claimsIdentity">Идентификатор доступа</param>
         public static string GetSecurityStamp(this ClaimsIdentity claimsIdentity)

@@ -50,7 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CQRS\Commands\CreateUserCommand.cs" />
-    <Compile Include="CQRS\Queries\Users\CheckAuthQuery.cs" />
+    <Compile Include="CQRS\Commands\LogoutUserCommand.cs" />
+    <Compile Include="CQRS\Commands\LoginUserCommand.cs" />
     <Compile Include="CQRS\Queries\Users\GetAllUsersQuery.cs" />
     <Compile Include="CQRS\Queries\Users\GetUserInfoQuery.cs" />
     <Compile Include="MapperConfiguration\MapperConfig.cs" />

@@ -6,9 +6,9 @@ using Microsoft.Owin.Security.DataProtection;
 using Microsoft.Practices.Unity;
 using Owin;
 using SocialProject;
-using SocialProject.App_Start;
+using SocialProject.Authorize;
 
-[assembly: OwinStartup(typeof(Startup))]
+[assembly: OwinStartup(typeof (Startup))]
 
 namespace SocialProject
 {

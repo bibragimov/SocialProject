@@ -21,6 +21,7 @@
     <IISExpressUseClassicPipelineMode />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -186,15 +187,15 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\UnityWebApiActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="AuthenticationService.cs" />
+    <Compile Include="Authorize\AuthenticationService.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="IdentityExtensions.cs" />
-    <Compile Include="IdentityValidator.cs" />
+    <Compile Include="Authorize\IdentityExtensions.cs" />
+    <Compile Include="Authorize\IdentityValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SocialApiAuthorizeAttribute.cs" />
+    <Compile Include="Authorize\SocialApiAuthorizeAttribute.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

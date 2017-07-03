@@ -1,8 +1,10 @@
 using System.Web.Http;
 using Microsoft.Practices.Unity.WebApi;
+using SocialProject.App_Start;
+using WebActivatorEx;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(SocialProject.App_Start.UnityWebApiActivator), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(SocialProject.App_Start.UnityWebApiActivator), "Shutdown")]
+[assembly: PreApplicationStartMethod(typeof (UnityWebApiActivator), "Start")]
+[assembly: ApplicationShutdownMethod(typeof (UnityWebApiActivator), "Shutdown")]
 
 namespace SocialProject.App_Start
 {
@@ -10,7 +12,7 @@ namespace SocialProject.App_Start
     public static class UnityWebApiActivator
     {
         /// <summary>Integrates Unity when the application starts.</summary>
-        public static void Start() 
+        public static void Start()
         {
             // Use UnityHierarchicalDependencyResolver if you want to use a new child container for each IHttpController resolution.
             // var resolver = new UnityHierarchicalDependencyResolver(UnityConfig.GetConfiguredContainer());

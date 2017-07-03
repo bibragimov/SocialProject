@@ -13,7 +13,7 @@ namespace SocialProject.BLL.Common.CQRS.Queries.Users
             Id = id;
         }
 
-        public long Id { get; private set; }
+        public long Id { get; }
     }
 
     public class GetUserInfoQueryHandler : IQueryHandler<GetUserInfoQuery, UserInfoDto>

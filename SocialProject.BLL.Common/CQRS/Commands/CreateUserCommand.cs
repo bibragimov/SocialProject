@@ -13,7 +13,7 @@ namespace SocialProject.BLL.Common.CQRS.Commands
             NewUser = newUser;
         }
 
-        public RegisterUserDto NewUser { get; private set; }
+        public RegisterUserDto NewUser { get; }
     }
 
     public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand>

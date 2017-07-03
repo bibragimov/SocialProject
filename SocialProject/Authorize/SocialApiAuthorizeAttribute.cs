@@ -5,8 +5,11 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using SocialProject.DAL.Common.Entities;
 
-namespace SocialProject
+namespace SocialProject.Authorize
 {
+    /// <summary>
+    ///     Авторизационный аттрибут
+    /// </summary>
     public class SocialApiAuthorizeAttribute : AuthorizeAttribute
     {
         /// <summary>
@@ -23,6 +26,10 @@ namespace SocialProject
         /// </summary>
         public Type[] IdentityTypes { get; set; }
 
+        /// <summary>
+        ///     Проверка на авторизацию пользователя <see cref="HttpActionContext" />
+        /// </summary>
+        /// <param name="actionContext"></param>
         protected override bool IsAuthorized(HttpActionContext actionContext)
         {
             var isAuthorized = base.IsAuthorized(actionContext);
@@ -36,6 +43,10 @@ namespace SocialProject
             return isAuthorized;
         }
 
+        /// <summary>
+        ///     Добавление в ответ статус код <see cref="HttpActionContext" />
+        /// </summary>
+        /// <param name="actionContext"></param>
         protected override void HandleUnauthorizedRequest(HttpActionContext actionContext)
         {
             actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);

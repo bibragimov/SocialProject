@@ -4,17 +4,29 @@ using Microsoft.Owin.Security.Cookies;
 using SocialProject.DAL.Common.Entities;
 using SocialProject.DAL.Core.Repositories;
 
-namespace SocialProject
+namespace SocialProject.Authorize
 {
+    /// <summary>
+    ///     Валидация идентификаторов
+    /// </summary>
     public sealed class IdentityValidator
     {
         private readonly IRepository<User> _userRepository;
 
+        /// <summary>
+        ///     Конструктор
+        /// </summary>
+        /// <param name="userRepository"> Репозиторий для работы с пользовательскими данными </param>
         public IdentityValidator(IRepository<User> userRepository)
         {
             _userRepository = userRepository;
         }
 
+        /// <summary>
+        ///     Проверка кук <seealso cref="CookieValidateIdentityContext" />
+        /// </summary>
+        /// <param name="validateIdentityContext"></param>
+        /// <returns></returns>
         public async Task ValidateIdentity(CookieValidateIdentityContext validateIdentityContext)
         {
             var claimsIdentity = validateIdentityContext.Identity;
@@ -25,7 +37,7 @@ namespace SocialProject
 
                 var identity = _userRepository.Get(userId);
 
-                bool isValid = identity != null;
+                var isValid = identity != null;
 
                 if (isValid && securityStamp != identity.SecurityStamp)
                     isValid = false;

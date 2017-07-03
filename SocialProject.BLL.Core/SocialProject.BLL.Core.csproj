@@ -43,9 +43,15 @@
     <Compile Include="CQRS\ICommandHandler.cs" />
     <Compile Include="CQRS\IQuery.cs" />
     <Compile Include="CQRS\IQueryHandler.cs" />
+    <Compile Include="Services\IAuthenticationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SocialProject.DAL.Common\SocialProject.DAL.Common.csproj">
+      <Project>{13277DEA-DC7B-497F-B142-EEFB460C39E9}</Project>
+      <Name>SocialProject.DAL.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

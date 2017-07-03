@@ -15,7 +15,7 @@ namespace SocialProject
                 "DefaultApi",
                 "api/{controller}/{action}/{id}",
                 new {id = RouteParameter.Optional}
-            );
+                );
         }
     }
 }

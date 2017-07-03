@@ -15,7 +15,7 @@ namespace SocialProject.BLL.Common.CQRS.Queries.Users
             Count = count;
         }
 
-        public int Count { get; private set; }
+        public int Count { get; }
     }
 
     public class GetAllUsersQueryHandler : IQueryHandler<GetAllUsersQuery, List<UserInfoDto>>

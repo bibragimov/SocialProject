@@ -1,9 +1,11 @@
 using System.Linq;
 using System.Web.Mvc;
 using Microsoft.Practices.Unity.Mvc;
+using SocialProject.App_Start;
+using WebActivatorEx;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(SocialProject.App_Start.UnityWebActivator), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(SocialProject.App_Start.UnityWebActivator), "Shutdown")]
+[assembly: PreApplicationStartMethod(typeof (UnityWebActivator), "Start")]
+[assembly: ApplicationShutdownMethod(typeof (UnityWebActivator), "Shutdown")]
 
 namespace SocialProject.App_Start
 {
@@ -11,7 +13,7 @@ namespace SocialProject.App_Start
     public static class UnityWebActivator
     {
         /// <summary>Integrates Unity when the application starts.</summary>
-        public static void Start() 
+        public static void Start()
         {
             var container = UnityConfig.GetConfiguredContainer();
 
